@@ -1,82 +1,73 @@
-package Parcial - Hotel SatyPlus.model;
+package model;
 
-import java.util.ArrayList;
+public class Habitacion {
 
-public class Huesped {
+    private int numero;
+    private String tipo;            // Individual, Doble, Suite
+    private int piso;
+    private int capacidadMaxima;
+    private double precioPorNoche;
+    private String estado;          // Disponible, Reservada, Ocupada, Mantenimiento
 
-    private String documentoIdentidad;
-    private String nombreCompleto;
-    private int edad;
-    private String telefono;
-    private String ciudadProcedencia;
-    private ArrayList<Reserva> listaReservas;
-
-    public Huesped(String documentoIdentidad, String nombreCompleto, int edad, String telefono, String ciudadProcedencia) {
-        this.documentoIdentidad = documentoIdentidad;
-        this.nombreCompleto = nombreCompleto;
-        this.edad = edad;
-        this.telefono = telefono;
-        this.ciudadProcedencia = ciudadProcedencia;
-        this.listaReservas = new ArrayList<>();
+    public Habitacion(int numero, String tipo, int piso, int capacidadMaxima, double precioPorNoche, String estado) {
+        this.numero = numero;
+        this.tipo = tipo;
+        this.piso = piso;
+        this.capacidadMaxima = capacidadMaxima;
+        this.precioPorNoche = precioPorNoche;
+        this.estado = estado;
     }
 
-    public void agregarReserva(Reserva reserva) {
-        listaReservas.add(reserva);
+    public int getNumero() {
+        return numero;
     }
 
-    public String getDocumentoIdentidad() {
-        return documentoIdentidad;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
-    public void setDocumentoIdentidad(String documentoIdentidad) {
-        this.documentoIdentidad = documentoIdentidad;
+    public String getTipo() {
+        return tipo;
     }
 
-    public String getNombreCompleto() {
-        return nombreCompleto;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
+    public int getPiso() {
+        return piso;
     }
 
-    public int getEdad() {
-        return edad;
+    public void setPiso(int piso) {
+        this.piso = piso;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+    public int getCapacidadMaxima() {
+        return capacidadMaxima;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public void setCapacidadMaxima(int capacidadMaxima) {
+        this.capacidadMaxima = capacidadMaxima;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public double getPrecioPorNoche() {
+        return precioPorNoche;
     }
 
-    public String getCiudadProcedencia() {
-        return ciudadProcedencia;
+    public void setPrecioPorNoche(double precioPorNoche) {
+        this.precioPorNoche = precioPorNoche;
     }
 
-    public void setCiudadProcedencia(String ciudadProcedencia) {
-        this.ciudadProcedencia = ciudadProcedencia;
+    public String getEstado() {
+        return estado;
     }
 
-    public ArrayList<Reserva> getListaReservas() {
-        return listaReservas;
-    }
-
-    public void setListaReservas(ArrayList<Reserva> listaReservas) {
-        this.listaReservas = listaReservas;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     @Override
     public String toString() {
-        return "Nombre: " + nombreCompleto + "\n" +
-                "Documento: " + documentoIdentidad + "\n" +
-                "Ciudad: " + ciudadProcedencia + "\n" +
-                "Cantidad de Reservas: " + listaReservas.size();
+        return "Habitación " + numero + " (" + tipo + ") - Piso " + piso + " - $" + precioPorNoche + " - Estado: " + estado;
     }
 }
