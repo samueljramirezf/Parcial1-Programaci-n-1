@@ -1,4 +1,4 @@
-package Parcial - Hotel SatyPlus.model;
+package model;
 
 import java.util.ArrayList;
 

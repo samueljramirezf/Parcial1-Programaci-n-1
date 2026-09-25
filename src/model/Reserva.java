@@ -1,82 +1,106 @@
-package Parcial - Hotel SatyPlus.model;
+package model;
 
 import java.util.ArrayList;
 
-public class Huesped {
+public class Reserva {
 
-    private String documentoIdentidad;
-    private String nombreCompleto;
-    private int edad;
-    private String telefono;
-    private String ciudadProcedencia;
-    private ArrayList<Reserva> listaReservas;
+    private int codigo;
+    private String fecha;          // DD/MM/AAAA
+    private int numeroNoches;
+    private int cantidadHuespedes;
+    private String estado;         // Pendiente, Confirmada, Finalizada
+    private String metodoPago;     // Efectivo, Tarjeta, Transferencia
+    private double valorTotal;
 
-    public Huesped(String documentoIdentidad, String nombreCompleto, int edad, String telefono, String ciudadProcedencia) {
-        this.documentoIdentidad = documentoIdentidad;
-        this.nombreCompleto = nombreCompleto;
-        this.edad = edad;
-        this.telefono = telefono;
-        this.ciudadProcedencia = ciudadProcedencia;
-        this.listaReservas = new ArrayList<>();
+    private Huesped huesped;
+    private ArrayList<Habitacion> listaHabitaciones;
+
+    public Reserva(int codigo, String fecha, int numeroNoches, int cantidadHuespedes,
+                   String estado, String metodoPago, Huesped huesped) {
+        this.codigo = codigo;
+        this.fecha = fecha;
+        this.numeroNoches = numeroNoches;
+        this.cantidadHuespedes = cantidadHuespedes;
+        this.estado = estado;
+        this.metodoPago = metodoPago;
+        this.huesped = huesped;
+        this.listaHabitaciones = new ArrayList<>();
+        this.valorTotal = 0;
+
+        if (huesped != null) {
+            huesped.agregarReserva(this);
+        }
     }
 
-    public void agregarReserva(Reserva reserva) {
-        listaReservas.add(reserva);
+    public void agregarHabitacion(Habitacion habitacion) {
+        listaHabitaciones.add(habitacion);
+        if (this.estado.equalsIgnoreCase("Confirmada")) {
+            habitacion.setEstado("Ocupada");
+        }
+        calcularValorTotal();
     }
 
-    public String getDocumentoIdentidad() {
-        return documentoIdentidad;
+    public double calcularValorTotal() {
+        double sumaPrecios = 0;
+        for (Habitacion h : listaHabitaciones) {
+            sumaPrecios += h.getPrecioPorNoche();
+        }
+        this.valorTotal = sumaPrecios * numeroNoches;
+        return valorTotal;
     }
 
-    public void setDocumentoIdentidad(String documentoIdentidad) {
-        this.documentoIdentidad = documentoIdentidad;
+    // Requisito 4: Número capicúa
+    public boolean esEspecial() {
+        int original = codigo;
+        int invertido = 0;
+        int aux = codigo;
+
+        while (aux > 0) {
+            invertido = (invertido * 10) + (aux % 10);
+            aux = aux / 10;
+        }
+        return original == invertido;
     }
 
-    public String getNombreCompleto() {
-        return nombreCompleto;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
+    public String getFecha() {
+        return fecha;
     }
 
-    public int getEdad() {
-        return edad;
+    public int getNumeroNoches() {
+        return numeroNoches;
     }
 
-    public void setEdad(int edad) {
-        this.edad = edad;
+    public int getCantidadHuespedes() {
+        return cantidadHuespedes;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public String getMetodoPago() {
+        return metodoPago;
     }
 
-    public String getCiudadProcedencia() {
-        return ciudadProcedencia;
+    public double getValorTotal() {
+        return valorTotal;
     }
 
-    public void setCiudadProcedencia(String ciudadProcedencia) {
-        this.ciudadProcedencia = ciudadProcedencia;
+    public Huesped getHuesped() {
+        return huesped;
     }
 
-    public ArrayList<Reserva> getListaReservas() {
-        return listaReservas;
-    }
-
-    public void setListaReservas(ArrayList<Reserva> listaReservas) {
-        this.listaReservas = listaReservas;
+    public ArrayList<Habitacion> getListaHabitaciones() {
+        return listaHabitaciones;
     }
 
     @Override
     public String toString() {
-        return "Nombre: " + nombreCompleto + "\n" +
-                "Documento: " + documentoIdentidad + "\n" +
-                "Ciudad: " + ciudadProcedencia + "\n" +
-                "Cantidad de Reservas: " + listaReservas.size();
+        return "Reserva #" + codigo + " | Fecha: " + fecha + " | Noches: " + numeroNoches +
+                " | Total: $" + valorTotal + " | Estado: " + estado;
     }
 }
